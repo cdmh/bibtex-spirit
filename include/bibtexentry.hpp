@@ -36,8 +36,6 @@
 
 #include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/fusion/include/std_pair.hpp>
-#include <boost/operators.hpp>
-#include <boost/optional.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/typeof/typeof.hpp>
 
@@ -50,6 +48,8 @@
     BOOST_AUTO(const name, boost::proto::deep_copy(expr));
 #endif // BOOST_SPIRIT_AUTO
 
+#include "bibtexentry.h"
+
 namespace bibtex {
 
 namespace detail {
@@ -58,34 +58,11 @@ namespace encoding = boost::spirit::standard_wide;
 
 } // namespace detail
 
-typedef std::vector<std::string> ValueVector;
-typedef std::pair<std::string, ValueVector> KeyValue;
-typedef std::vector<KeyValue> KeyValueVector;
-typedef detail::encoding::space_type Space;
-
 BOOST_SPIRIT_AUTO(qi, space, detail::encoding::space |
     '%' >> *(boost::spirit::qi::char_ - boost::spirit::qi::eol)
     >> boost::spirit::qi::eol)
 
-/**
- * @brief Single BibTeX entry.
- */
-struct BibTeXEntry
-    : boost::equality_comparable<BibTeXEntry>
-{
-    //! Entry's tag.
-    std::string tag;
-    //! Entry's optional key.
-    boost::optional<std::string> key;
-    //! Entry's key/value pairs.
-    KeyValueVector fields;
-};
-
-inline bool operator==(const BibTeXEntry& lhs, const BibTeXEntry& rhs)
-{
-    return lhs.tag == rhs.tag && lhs.tag == rhs.tag &&
-        lhs.fields == rhs.fields;
-}
+typedef detail::encoding::space_type Space;
 
 } // namespace bibtex
 
