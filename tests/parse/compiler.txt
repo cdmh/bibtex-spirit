@@ -1,0 +1,1 @@
+cl /EHsc -I D:\Development\Library\boost\boost_1_56_0 -I ..\..\include main.cpp /link /LIBPATH:d:\Development\Library\boost\boost_1_56_0\stage\lib64  /SUBSYSTEM:CONSOLE
