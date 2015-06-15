@@ -14,6 +14,18 @@ typedef std::vector<KeyValue> KeyValueVector;
 struct BibTeXEntry
     : boost::equality_comparable<BibTeXEntry>
 {
+    BibTeXEntry()                    = default;
+    BibTeXEntry(BibTeXEntry const &) = default;
+
+    BibTeXEntry(BibTeXEntry &&other)
+      : tag(std::move(other.tag)),
+        key(std::move(other.key)),
+        fields(std::move(other.fields))
+    {
+    }
+
+    BibTeXEntry &operator=(BibTeXEntry &&other);
+
     //! Entry's tag.
     std::string tag;
     //! Entry's optional key.
